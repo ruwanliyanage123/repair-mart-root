@@ -57,4 +57,27 @@ public class UserServiceImpl implements UserServiceApi {
         user.setRole(requestMap.get("role"));
         return user;
     }
+
+    @Override
+    public ResponseEntity<String> login(Map<String, String> requestMap) {
+        log.info("Inside login");
+        return new ResponseEntity<>("login method", HttpStatus.BAD_REQUEST);
+//        try {
+
+//            Authentication auth = authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(requestMap.get("email"), requestMap.get("password")));
+//            if (auth.isAuthenticated()) {
+//
+//
+////                if (customerUserDetailsService.getUserDetails().getStatus().equalsIgnoreCase("true")) {
+////                    return new ResponseEntity<>("Need to check the JWT", HttpStatus.OK);
+////                }else {
+////                    return new ResponseEntity<>("Waiting for approval", HttpStatus.BAD_REQUEST);
+////                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return RepairMartUtils.getResponseEntity(RepairMartConstants.ERROR_OCCURRING_WHEN + "sign up", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

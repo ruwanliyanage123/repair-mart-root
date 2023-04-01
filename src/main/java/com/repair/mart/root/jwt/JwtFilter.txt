@@ -17,39 +17,39 @@ import java.io.IOException;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
-    @Autowired
-    private JwtUtil jwtUtil;
-    @Autowired
-    private CustomerUserDetailsService service;
+//    @Autowired
+//    private JwtUtil jwtUtil;
+//    @Autowired
+//    private CustomerUserDetailsService service;
     Claims claims = null;
     private String userName = null;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        if (httpServletRequest.getServletPath().matches("/user/login|/user/forgotPassword|/user/signup")) {
-            filterChain.doFilter(httpServletRequest, httpServletResponse);
-        } else {
-            String authorizationHeader = httpServletRequest.getHeader("Authorization");
-            String token = null;
-
-            if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-                token = authorizationHeader.substring(7);
-                userName = jwtUtil.extractUsername(token);
-                claims = jwtUtil.extractAllClaims(token);
-            }
-            if(userName != null && SecurityContextHolder.getContext().getAuthentication() == null){
-                UserDetails userDetails = service.loadUserByUsername(userName);
-                if(jwtUtil.validToken(token, userDetails)){
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
-                            = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    usernamePasswordAuthenticationToken.setDetails(
-                            new WebAuthenticationDetailsSource().buildDetails(httpServletRequest)
-                    );
-                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                }
-            }
-            filterChain.doFilter(httpServletRequest, httpServletResponse);
-        }
+//        if (httpServletRequest.getServletPath().matches("/user/login|/user/forgotPassword|/user/signup")) {
+//            filterChain.doFilter(httpServletRequest, httpServletResponse);
+//        } else {
+//            String authorizationHeader = httpServletRequest.getHeader("Authorization");
+//            String token = null;
+//
+//            if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+//                token = authorizationHeader.substring(7);
+//                userName = jwtUtil.extractUsername(token);
+//                claims = jwtUtil.extractAllClaims(token);
+//            }
+//            if(userName != null && SecurityContextHolder.getContext().getAuthentication() == null){
+//                UserDetails userDetails = service.loadUserByUsername(userName);
+//                if(jwtUtil.validToken(token, userDetails)){
+//                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
+//                            = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+//                    usernamePasswordAuthenticationToken.setDetails(
+//                            new WebAuthenticationDetailsSource().buildDetails(httpServletRequest)
+//                    );
+//                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+//                }
+//            }
+//            filterChain.doFilter(httpServletRequest, httpServletResponse);
+//        }
     }
 
     public boolean isAdmin(){

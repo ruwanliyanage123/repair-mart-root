@@ -10,4 +10,12 @@ public interface UserServiceApi {
      * @return response entity
      */
     ResponseEntity<String> signUp(Map<String, String> requestMap);
+
+
+    /**
+     * Login
+     * @return response entity
+     */
+    ResponseEntity<String> login(Map<String, String> requestMap);
+
 }

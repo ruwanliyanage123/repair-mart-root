@@ -23,6 +23,16 @@ public class UserRestImpl implements UserRestApi {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        return RepairMartUtils.getResponseEntity(RepairMartConstants.ERROR_OCCURRING_WHEN+ "signup", HttpStatus.INTERNAL_SERVER_ERROR);
+        return RepairMartUtils.getResponseEntity(RepairMartConstants.ERROR_OCCURRING_WHEN + "signup", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> login(Map<String, String> requestMap) {
+        try {
+            return userService.signUp(requestMap);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return RepairMartUtils.getResponseEntity(RepairMartConstants.ERROR_OCCURRING_WHEN + "signup", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
