@@ -46,4 +46,11 @@ public interface UserRestApi {
     @PostMapping("/update")
     ResponseEntity<String> update(@RequestBody(required = true) Map<String, String> requestMap);
 
+    /**
+     * Get All users
+     * @return all users
+     */
+    @GetMapping(path = "/checkToken")
+    ResponseEntity<String> checkToken();
+
 }

@@ -13,6 +13,7 @@ public interface UserDAOApi extends JpaRepository<User, Integer> {
     User findByEmailId(@Param("email") String email);//note: @Param("email") and email should be same
 
     List<UserWrapper> getAllUser();
+    List<String> getAllAdmin();
 
     @Transactional
     @Modifying

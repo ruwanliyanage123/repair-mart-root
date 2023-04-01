@@ -33,5 +33,7 @@ public interface UserServiceApi {
      */
     ResponseEntity<String> update(Map<String, String> requestMap);
 
+    ResponseEntity<String> checkToken();
+
 
 }

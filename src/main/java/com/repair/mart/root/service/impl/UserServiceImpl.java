@@ -4,6 +4,7 @@ import com.repair.mart.root.constants.RepairMartConstants;
 import com.repair.mart.root.dao.api.UserDAOApi;
 import com.repair.mart.root.pojo.User;
 import com.repair.mart.root.service.api.UserServiceApi;
+import com.repair.mart.root.util.EmailUtils;
 import com.repair.mart.root.util.RepairMartUtils;
 import com.repair.mart.root.wrapper.UserWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,9 @@ import java.util.Optional;
 public class UserServiceImpl implements UserServiceApi {
     @Autowired
     UserDAOApi userDAO;
+
+    @Autowired
+    EmailUtils emailUtils;
 
     @Override
     public ResponseEntity<String> signUp(Map<String, String> requestMap) {
@@ -94,7 +98,7 @@ public class UserServiceImpl implements UserServiceApi {
 //            }else{
 //                return new ResponseEntity<>(new ArrayList<>(), HttpStatus.UNAUTHORIZED);
 //            }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
@@ -102,17 +106,33 @@ public class UserServiceImpl implements UserServiceApi {
 
     @Override
     public ResponseEntity<String> update(Map<String, String> requestMap) {
-        try{
+        try {
             Optional<User> optional = userDAO.findById(Integer.parseInt(requestMap.get("id")));
             userDAO.updateStatus(requestMap.get("status"), Integer.parseInt(requestMap.get("id")));
+            sendMailToAllAdmin(requestMap.get("status"), optional.get().getEmail(), userDAO.getAllAdmin());
             return new ResponseEntity<>("updated user status", HttpStatus.OK);
 //            if(jwtFilter.isAdmin()){
 //
 //            }else{
 //                return new ResponseEntity<>(new ArrayList<>(), HttpStatus.UNAUTHORIZED);
 //            }
-        }catch (Exception exception){
+        } catch (Exception exception) {
             exception.printStackTrace();
-        }return RepairMartUtils.getResponseEntity(RepairMartConstants.ERROR_OCCURRING_WHEN + "update", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return RepairMartUtils.getResponseEntity(RepairMartConstants.ERROR_OCCURRING_WHEN + "update", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private void sendMailToAllAdmin(String status, String mail, List<String> allAdmin) {
+        if (status != null && status.equalsIgnoreCase("online")) {
+            //need to get the current user from JWT
+            emailUtils.sentMessage("ruwanliyanage2021@gmail.com", "AccountStarted", "hi", allAdmin);
+        } else {
+            emailUtils.sentMessage("ruwanliyanage2021@gmail.com", "Account disabled", "hi", allAdmin);
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> checkToken() {
+        return RepairMartUtils.getResponseEntity("true", HttpStatus.OK);
     }
 }

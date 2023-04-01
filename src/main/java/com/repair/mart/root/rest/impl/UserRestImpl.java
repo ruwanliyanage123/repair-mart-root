@@ -59,4 +59,14 @@ public class UserRestImpl implements UserRestApi {
         }
         return RepairMartUtils.getResponseEntity(RepairMartConstants.ERROR_OCCURRING_WHEN + "signup", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @Override
+    public ResponseEntity<String> checkToken(){
+        try{
+            return userService.checkToken();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return RepairMartUtils.getResponseEntity(RepairMartConstants.ERROR_OCCURRING_WHEN + "signup", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
