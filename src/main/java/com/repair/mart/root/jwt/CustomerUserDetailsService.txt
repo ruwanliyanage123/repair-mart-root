@@ -1,0 +1,33 @@
+package com.repair.mart.root.jwt;
+
+import com.repair.mart.root.dao.api.UserDAOApi;
+import com.repair.mart.root.pojo.User;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Objects;
+
+@Slf4j
+@Service
+public class CustomerUserDetailsService implements UserDetailsService {
+    @Autowired
+    UserDAOApi userDAO;
+    private User user;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        user = userDAO.findByEmailId(username);
+        if (!Objects.isNull(user))
+            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
+        else throw new UsernameNotFoundException("User not found");
+    }
+
+    public User getUserDetails() {
+        return user;
+    }
+}
