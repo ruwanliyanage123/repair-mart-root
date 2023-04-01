@@ -1,7 +1,10 @@
 package com.repair.mart.root.service.api;
 
+import com.repair.mart.root.pojo.User;
+import com.repair.mart.root.wrapper.UserWrapper;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Map;
 
 public interface UserServiceApi {
@@ -18,4 +21,9 @@ public interface UserServiceApi {
      */
     ResponseEntity<String> login(Map<String, String> requestMap);
 
+    /**
+     * Login
+     * @return response entity
+     */
+    ResponseEntity<List<UserWrapper>> getAllUser();
 }

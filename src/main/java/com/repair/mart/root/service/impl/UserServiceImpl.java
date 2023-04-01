@@ -5,12 +5,15 @@ import com.repair.mart.root.dao.api.UserDAOApi;
 import com.repair.mart.root.pojo.User;
 import com.repair.mart.root.service.api.UserServiceApi;
 import com.repair.mart.root.util.RepairMartUtils;
+import com.repair.mart.root.wrapper.UserWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -41,7 +44,7 @@ public class UserServiceImpl implements UserServiceApi {
 
     private boolean validateSignUpMap(Map<String, String> requestMap) {
         boolean isValidName = requestMap.containsKey("name");
-        boolean isValidNumber = requestMap.containsKey("contactNumber");
+        boolean isValidNumber = requestMap.containsKey("contact");
         boolean isValidEmail = requestMap.containsKey("email");
         boolean isValidPassword = requestMap.containsKey("password");
         return isValidName && isValidNumber && isValidEmail && isValidPassword;
@@ -50,7 +53,7 @@ public class UserServiceImpl implements UserServiceApi {
     private User getUserFromMap(Map<String, String> requestMap) {
         User user = new User();
         user.setName(requestMap.get("name"));
-        user.setContactNumber(requestMap.get("contactNumber"));
+        user.setContact(requestMap.get("contact"));
         user.setEmail(requestMap.get("email"));
         user.setPassword(requestMap.get("password"));
         user.setStatus(requestMap.get("status"));
@@ -79,5 +82,20 @@ public class UserServiceImpl implements UserServiceApi {
 //            e.printStackTrace();
 //        }
 //        return RepairMartUtils.getResponseEntity(RepairMartConstants.ERROR_OCCURRING_WHEN + "sign up", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<List<UserWrapper>> getAllUser() {
+        try {
+            return new ResponseEntity<>(userDAO.getAllUser(), HttpStatus.OK);
+//            if(jwtFilter.isAdmin()){
+//
+//            }else{
+//                return new ResponseEntity<>(new ArrayList<>(), HttpStatus.UNAUTHORIZED);
+//            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
     }
 }

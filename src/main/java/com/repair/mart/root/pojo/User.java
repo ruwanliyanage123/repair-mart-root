@@ -13,6 +13,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @NamedQuery(name = "User.findByEmailId", query = "SELECT u FROM User u WHERE u.email=:email")//note:u.email mean the @Column(name = "email")
+@NamedQuery(name = "User.getAllUser", query = "SELECT new com.repair.mart.root.wrapper.UserWrapper(u.id, u.name, u.contact, u.email, u.status) from User u where u.role='user'")//note:u.email mean the @Column(name = "email")
 @Data
 @Entity
 @DynamicInsert
@@ -27,8 +28,8 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "contactNumber")
-    private String contactNumber;
+    @Column(name = "contact")
+    private String contact;
 
     @Column(name = "email")
     private String email;
