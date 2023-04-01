@@ -26,4 +26,12 @@ public interface UserServiceApi {
      * @return response entity
      */
     ResponseEntity<List<UserWrapper>> getAllUser();
+
+    /**
+     * update
+     * @return response entity
+     */
+    ResponseEntity<String> update(Map<String, String> requestMap);
+
+
 }

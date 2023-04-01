@@ -49,4 +49,14 @@ public class UserRestImpl implements UserRestApi {
         }
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @Override
+    public ResponseEntity<String> update(Map<String, String> requestMap) {
+        try{
+            userService.update(requestMap);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return RepairMartUtils.getResponseEntity(RepairMartConstants.ERROR_OCCURRING_WHEN + "signup", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -97,5 +98,21 @@ public class UserServiceImpl implements UserServiceApi {
             ex.printStackTrace();
         }
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<String> update(Map<String, String> requestMap) {
+        try{
+            Optional<User> optional = userDAO.findById(Integer.parseInt(requestMap.get("id")));
+            userDAO.updateStatus(requestMap.get("status"), Integer.parseInt(requestMap.get("id")));
+            return new ResponseEntity<>("updated user status", HttpStatus.OK);
+//            if(jwtFilter.isAdmin()){
+//
+//            }else{
+//                return new ResponseEntity<>(new ArrayList<>(), HttpStatus.UNAUTHORIZED);
+//            }
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }return RepairMartUtils.getResponseEntity(RepairMartConstants.ERROR_OCCURRING_WHEN + "update", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

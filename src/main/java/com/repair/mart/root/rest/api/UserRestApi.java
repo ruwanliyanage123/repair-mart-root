@@ -38,4 +38,12 @@ public interface UserRestApi {
     @GetMapping(path = "/get")
     ResponseEntity<List<UserWrapper>> getAllUsers();
 
+    /**
+     * To update user
+     * @param requestMap
+     * @return
+     */
+    @PostMapping("/update")
+    ResponseEntity<String> update(@RequestBody(required = true) Map<String, String> requestMap);
+
 }

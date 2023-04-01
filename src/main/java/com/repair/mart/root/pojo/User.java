@@ -9,11 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+
 @NamedQuery(name = "User.findByEmailId", query = "SELECT u FROM User u WHERE u.email=:email")//note:u.email mean the @Column(name = "email")
 @NamedQuery(name = "User.getAllUser", query = "SELECT new com.repair.mart.root.wrapper.UserWrapper(u.id, u.name, u.contact, u.email, u.status) from User u where u.role='user'")//note:u.email mean the @Column(name = "email")
+@NamedQuery(name = "User.updateStatus", query = "UPDATE User u SET u.status = :status WHERE u.id = :id")
+
 @Data
 @Entity
 @DynamicInsert
@@ -43,3 +47,7 @@ public class User {
     @Column(name = "role")
     private String role;
 }
+
+
+
+
